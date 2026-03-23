@@ -21,13 +21,9 @@ deny any
 exit
 
 conf t
-ntp server 10.0.10.11
 line vty 0 15
 access-class MGMT-ACL in
 exit
-
-vlan 99
-name mgmt
 
 vlan 10
 name Klienter
@@ -36,7 +32,10 @@ vlan 20
 name Servers
 
 vlan 30
-name Printers
+name Printer
+
+vlan 99
+name MGMT
 
 int vlan 99
 ip add 10.0.99.2 255.255.255.0
@@ -44,8 +43,6 @@ no shut
 description interface til ssh adgang gennem mgmt vlan
 
 exit
-service password-encryption
-banner motd #Din mor er en mand#
 
 #De forskellige interfaces tildeles forskellige vlans.
 
