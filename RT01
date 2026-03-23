@@ -26,6 +26,7 @@ permit 172.16.99.0 0.0.0.255
 deny any
 exit
 
+
 conf t
 line vty 0 15
 access-class MGMT-ACL in
