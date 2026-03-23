@@ -3,6 +3,7 @@
 en
 conf t
 hostname RT01
+ntp server 10.0.20.11
 ip domain-name slasker.dk
 line vty 0 15
 transport input ssh
@@ -26,16 +27,16 @@ deny any
 exit
 
 conf t
-line vty 0 4
+line vty 0 15
 access-class MGMT-ACL in
+exit
 
+conf t
 # Opret Gateway of last resort til at være SDE Gateway
 ip route 0.0.0.0 0.0.0.0 10.0.10.2
 
 #Vlan på Router
  
-
-
 #Her oprettes subinterfaces, subinterfacene bindes til de forskellige vlan, tildeler ip adresser, 
 #som fungerer som default gateway på de forskellige subnets.
 
@@ -92,54 +93,4 @@ default-information originate always
 
 #-------------------------IPv6 opsætning med DHCP relay samt IPv4 ip-helper------------------
 
-conf t
 
-ipv6 unicast-routing
-ipv6 cef
-
-#Subinterfacene indstilles som gateway og DHCP-relay for både IPv4 og IPv6.
-
-int gi 0/0/0.10
-ipv6 address 2001:db8:acad:10::1/64
-ipv6 address FE80::1 link-local
-ipv6 nd prefix default
-ipv6 nd managed-config-flag
-ipv6 nd other-config-flag
-ipv6 dhcp relay destination  2001:db8:acad:10::11
-
-int gi 0/0/0.20
-
-ipv6 address 2001:db8:acad:20::1/64
-ipv6 address FE80::1 link-local
-ipv6 nd prefix default
-ipv6 nd managed-config-flag
-ipv6 nd other-config-flag
-ipv6 dhcp relay destination  2001:db8:acad:10::11
-
-
-int gi 0/0/0.30
-
-ipv6 address 2001:db8:acad:30::1/64
-ipv6 address FE80::1 link-local
-ipv6 nd prefix default
-ipv6 nd managed-config-flag
-ipv6 nd other-config-flag
-ipv6 dhcp relay destination  2001:db8:acad:10::11
-
-
-int gi 0/0/0.69
-
-ipv6 address 2001:db8:acad:69::1/64
-ipv6 address FE80::1 link-local
-ipv6 nd prefix default
-ipv6 nd managed-config-flag
-ipv6 nd other-config-flag
-ipv6 dhcp relay destination  2001:db8:acad:10::11
-
-
-# NTP server til vores egen DC og syslog til Graylog server
-end
-conf t
-ntp server 10.0.10.11
-logging host 10.0.10.15 transport udp port 1521
-logging trap informational
