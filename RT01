@@ -60,7 +60,7 @@ ip helper-address 10.0.20.11
 description Printer 
 
 int gi 0/0.99
-encapsulation dot1q 69
+encapsulation dot1q 99
 ip address 10.0.99.1 255.255.255.0
 ip helper-address 10.0.20.11
 description MGMT
