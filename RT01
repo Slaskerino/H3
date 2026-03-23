@@ -90,7 +90,3 @@ passive-interface gi 0/0.20
 passive-interface gi 0/0.30
 passive-interface gi 0/0.99
 default-information originate always
-
-#-------------------------IPv6 opsætning med DHCP relay samt IPv4 ip-helper------------------
-
-
