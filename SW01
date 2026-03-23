@@ -1,0 +1,83 @@
+#Sætter SSH op på interface vlan69 med statisk ip samt kryptering og opretter Vlans.
+en
+conf t
+hostname SW01
+ntp server 10.0.20.11
+ip domain-name slasker.dk
+line vty 0 15
+transport input ssh
+login local
+exit
+crypto key generate rsa modulus 2048
+username admin secret cisco123
+enable secret cisco123
+ip ssh version 2
+service password-encryption
+banner motd #Din mor er en mand#
+ip access-list standard MGMT-ACL
+permit 10.0.99.0 0.0.0.255
+permit 172.16.99.0 0.0.0.255
+deny any
+exit
+
+conf t
+ntp server 10.0.10.11
+line vty 0 15
+access-class MGMT-ACL in
+exit
+
+vlan 99
+name mgmt
+
+vlan 10
+name Klienter
+
+vlan 20
+name Servers
+
+vlan 30
+name Printers
+
+int vlan 99
+ip add 10.0.99.2 255.255.255.0
+no shut
+description interface til ssh adgang gennem mgmt vlan
+
+exit
+service password-encryption
+banner motd #Din mor er en mand#
+
+#De forskellige interfaces tildeles forskellige vlans.
+
+int range gi 1/0/1 - 4
+switchport mode access
+switchport access vlan 10
+description Klienter
+
+int range gi 1/0/5 - 12
+switchport mode access
+switchport access vlan 20
+description Servers
+
+int gi 1/0/13
+switchport mode access
+switchport access vlan 30
+description Printer
+
+int range gi 1/0/14 - 22
+switchport mode access
+switchport access vlan 99
+description MGMT
+
+int gi 1/0/23
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99
+description Trunk til RT01
+
+int gi 1/0/24
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99
+description Trunk til ESXi
+
+
+end
