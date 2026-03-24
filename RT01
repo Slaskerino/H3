@@ -26,6 +26,7 @@ permit 172.16.99.0 0.0.0.255
 deny any
 exit
 
+
 conf t
 line vty 0 15
 access-class MGMT-ACL in
@@ -33,7 +34,7 @@ exit
 
 conf t
 # Opret Gateway of last resort til at være SDE Gateway
-ip route 0.0.0.0 0.0.0.0 10.0.10.2
+ip route 0.0.0.0 0.0.0.0 10.0.20.2
 
 #Vlan på Router
  
@@ -59,7 +60,7 @@ ip helper-address 10.0.20.11
 description Printer 
 
 int gi 0/0.99
-encapsulation dot1q 69
+encapsulation dot1q 99
 ip address 10.0.99.1 255.255.255.0
 ip helper-address 10.0.20.11
 description MGMT
