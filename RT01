@@ -91,3 +91,14 @@ passive-interface gi 0/0.20
 passive-interface gi 0/0.30
 passive-interface gi 0/0.99
 default-information originate always
+exit
+
+conf t
+ip ftp username ftpuser
+ip ftp password Password1
+archive
+path ftp://10.0.20.12/$h-$t.txt
+write-memory
+time-period 1440
+
+end

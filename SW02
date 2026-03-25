@@ -76,5 +76,14 @@ int gi 1/0/24
 switchport mode trunk
 switchport trunk allowed vlan 10,20,30,99
 description Trunk til ESXi
+exit
+
+conf t
+ip ftp username ftpuser
+ip ftp password Password1
+archive
+path ftp://10.0.20.12/$h-$t.txt
+write-memory
+time-period 1440
 
 end
