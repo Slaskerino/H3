@@ -34,7 +34,7 @@ exit
 
 conf t
 # Opret Gateway of last resort til at være SDE Gateway
-ip route 0.0.0.0 0.0.0.0 10.0.20.2
+# ip route 0.0.0.0 0.0.0.0 10.0.20.2
 
 #Vlan på Router
  
@@ -77,7 +77,7 @@ description Odense
  
 exit
  
-#Denne konfiguration starter en OSPF-proces (10), giver routeren ID 1.1.1.1, annoncerer netværkene 10.0.0.0/16 og 10.69.0.0/24 i area 0, 
+#Denne konfiguration starter en OSPF-proces (10), giver routeren ID 2.2.2.2, annoncerer netværkene 172.16.0.0/16 og 10.10.10.0/30 i area 0, 
 #logger ændringer i nabo-relationer, og tvinger routeren til altid at udsende en default-route (0.0.0.0/0) til de andre OSPF-routere.
 
 conf t
