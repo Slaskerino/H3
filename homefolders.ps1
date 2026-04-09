@@ -18,23 +18,26 @@ foreach ($user in $users) {
     # Get ACL
     $acl = Get-Acl $homePath
 
-    # Disable inheritance and remove existing inherited permissions
+    # Disable inheritance and remove inherited permissions
     $acl.SetAccessRuleProtection($true, $false)
 
-    # Clear existing explicit rules
+    # Remove existing explicit rules
     $acl.Access | ForEach-Object {
         $acl.RemoveAccessRule($_)
     }
 
     # Define access rules
+
+    # User: Modify (instead of FullControl)
     $userRule = New-Object System.Security.AccessControl.FileSystemAccessRule(
         $username,
-        "FullControl",
+        "Modify",
         "ContainerInherit,ObjectInherit",
         "None",
         "Allow"
     )
 
+    # Administrators: Full Control
     $adminRule = New-Object System.Security.AccessControl.FileSystemAccessRule(
         "Administrators",
         "FullControl",
@@ -43,6 +46,7 @@ foreach ($user in $users) {
         "Allow"
     )
 
+    # SYSTEM: Full Control
     $systemRule = New-Object System.Security.AccessControl.FileSystemAccessRule(
         "SYSTEM",
         "FullControl",
